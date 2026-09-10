@@ -1,21 +1,35 @@
 import 'package:flutter/material.dart';
-import 'core/theme/app_theme.dart';
-import 'features/chess/presentation/screens/game_screen.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const ChessApp());
+import 'core/router/app_router.dart';
+import 'core/settings/app_settings.dart';
+import 'core/theme/app_theme.dart';
+import 'core/stats/player_stats.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await PlayerStats().load();
+
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => AppSettings(),
+      child: const ChessAIApp(),
+    ),
+  );
 }
 
-class ChessApp extends StatelessWidget {
-  const ChessApp({super.key});
+class ChessAIApp extends StatelessWidget {
+  const ChessAIApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Chess AI',
+      title: 'Chess AI: Robert Paulson',
       theme: AppTheme.darkTheme,
-      home: const GameScreen(),
+      onGenerateRoute: AppRouter.generateRoute,
+      initialRoute: AppRouter.home,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

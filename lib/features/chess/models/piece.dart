@@ -7,10 +7,13 @@ class ChessPiece {
   final PieceColor color;
   final String imagePath;
 
+  bool hasMoved;
+
   ChessPiece({
     required this.id,
     required this.type,
     required this.color,
     required this.imagePath,
+    this.hasMoved = false,
   });
 }
